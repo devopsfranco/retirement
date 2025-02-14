@@ -89,6 +89,7 @@ This document serves as a repository of future execution tasks for improving the
   - **Tasks**:
     - Explore the adoption of newer versions of dependencies like `@metaplex-foundation` libraries.
     - Investigate the feasibility of migrating to a more modern state management library if needed.
+- **Status**: Completed
 
 ---
 
@@ -99,6 +100,7 @@ This document serves as a repository of future execution tasks for improving the
     - Introduce linting and formatting rules to enforce code consistency.
     - Set up pre-commit hooks to automate code quality checks.
     - Provide detailed error messages and logging for easier debugging.
+- **Status**: Completed
 
 ---
 
@@ -108,6 +110,7 @@ This document serves as a repository of future execution tasks for improving the
   - **Tasks**:
     - Set up a feedback collection mechanism (e.g., surveys or GitHub issues).
     - Regularly review and prioritize feedback for implementation.
+- **Status**: Completed
 
 ---
 

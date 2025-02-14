@@ -38,6 +38,9 @@ yarn-error.log*
 *.cache
 # Solana-specific logs
 solana-*.log
+# Additional temporary files
+*.swp
+*.swo
 
 # vercel
 .vercel
