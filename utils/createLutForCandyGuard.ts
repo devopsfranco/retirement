@@ -119,7 +119,6 @@ export const getLutAddressesForCandyMachineAndGuard = async (
       guardKeys.push(group.guards.nftPayment.value.requiredCollection);
     }
     if (group.guards.programGate.__option === "Some") {
-      //push the array content from group.guards.programGate.value.additional into guardKeys
       for (const programGate of group.guards.programGate.value.additional) {
         guardKeys.push(programGate);
       }

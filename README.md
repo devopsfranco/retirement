@@ -4,26 +4,31 @@ Welcome to the Retirement Coin Project repository.
 
 ## Staking Program Overview
 
-The Retirement Coin Project now runs on Solana, leveraging the Anchor framework for high-performance and secure staking. Key features include:
-- **Anchor Framework**: Built using Anchor for seamless Solana integration.
-- **Dynamic Rewards**: Rewards are distributed based on time-weighted balances for fairness.
-- **Manual Reward Claims**: Users claim rewards manually, ensuring flexibility and security.
-- **SPL Token Integration**: Fully integrated with Solana's SPL token standard for token transfers.
-- **Backend Migration**: The backend has been migrated from PHP and Solidity to Solana using the Anchor framework.
+The Retirement Coin Project is built on Solana, utilizing the Anchor framework for high-performance, secure, and decentralized staking. Key features include:
+- **Anchor Framework**: Provides seamless integration with Solana for programmatic staking and governance.
+- **Dynamic Rewards**: Rewards are calculated based on time-weighted balances, ensuring fairness and transparency.
+- **Manual Reward Claims**: Users can claim rewards at their convenience, offering flexibility and control.
+- **SPL Token Standard**: Fully compliant with Solana's SPL token standard for efficient token management.
+- **Modernized Backend**: Transitioned from legacy PHP/Solidity to a robust Solana/Anchor-based architecture.
 
 ## Usage Instructions
 
 ### Staking Tokens
-1. Use the `deposit` function to stake your tokens into the staking pool.
-2. Ensure you have sufficient SPL tokens in your wallet.
+1. Use the `deposit` function in the staking program to stake your SPL tokens into the pool.
+2. Ensure your wallet is connected and has sufficient SPL tokens for staking.
 
 ### Withdrawing Tokens
-1. Use the `withdraw` function to withdraw your staked tokens.
-2. Ensure you have sufficient staked tokens before withdrawing.
+1. Use the `withdraw` function to retrieve your staked tokens from the pool.
+2. Verify that your staked balance meets the withdrawal requirements.
 
 ### Claiming Rewards
-1. Use the `claim_rewards` function to claim your accumulated rewards.
-2. Rewards are calculated dynamically based on your staking duration and balance.
+1. Call the `claim_rewards` function to collect your staking rewards.
+2. Rewards are dynamically calculated based on staking duration, balance, and applicable bonuses.
+
+### NFT Integration
+1. Stake eligible NFTs to unlock additional staking bonuses (e.g., yield multipliers).
+2. Use the `nft_stake` function to associate your NFT with your staking account.
+3. View your NFT-based rewards in the dashboard.
 
 ## Frontend Integration
 
@@ -70,21 +75,21 @@ const StakingComponent = () => {
    ```bash
    cargo install --git https://github.com/coral-xyz/anchor anchor-cli --locked
    ```
-2. Build the program:
+2. Build the staking program:
    ```bash
    anchor build
    ```
-3. Deploy the program to Solana:
+3. Deploy the program to the Solana blockchain:
    ```bash
    anchor deploy
    ```
-4. Verify the deployment by checking the program ID in the `target/idl/` directory.
+4. Confirm the deployment by verifying the program ID in the `target/idl/` directory.
 
-> Note: Ensure that your Solana CLI is configured with the correct network and wallet.
+> **Note**: Ensure your Solana CLI is configured with the correct network (`devnet` or `mainnet-beta`) and wallet credentials.
 
 ## Additional Resources
 
-For detailed design decisions, security considerations, and compliance standards, refer to the [ADR Document](./docs/ADR-Staking.md).
+For in-depth design decisions, security best practices, and compliance guidelines, refer to the [ADR Document](./docs/ADR-Staking.md). This document also includes architectural diagrams and API endpoint details.
 
 ---
 

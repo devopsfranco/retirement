@@ -51,12 +51,12 @@ export const verifyTx = async (umi: Umi, signatures: Uint8Array[], blockhash: Bl
     }
   });
 
-  if (failed && failed.length > 0){
-    console.error(`${failed.length} transactions failed:`, failed);
+  if (failed.length > 0) {
+    console.error(`Failed Transactions (${failed.length}):`, failed);
   }
 
-  if (successful.length > 0){
-    console.log(`${successful.length} transactions successful.`);
+  if (successful.length > 0) {
+    console.log(`Successful Transactions (${successful.length}):`, successful);
   }
 
   return { successful, failed };
