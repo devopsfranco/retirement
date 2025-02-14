@@ -31,7 +31,7 @@ export interface GuardReturn {
 }
 
 export const addressGateChecker = (wallet: PublicKey, address: PublicKey) => {
-  if (wallet != address) {
+  if (!wallet.equals(address)) {
     return false;
   }
   return true;

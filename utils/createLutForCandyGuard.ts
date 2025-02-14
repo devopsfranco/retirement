@@ -76,7 +76,7 @@ export const getLutAddressesForCandyMachineAndGuard = async (
   const guardKeys: PublicKey[] = [];
   // async iterate through all candyGuard groups and add all guards to guardKeys
 
-  candyGuard.groups.forEach(async (group) => {
+  for (const group of candyGuard.groups) {
     if (group.guards.addressGate.__option === "Some") {
       guardKeys.push(group.guards.addressGate.value.address);
     }
@@ -120,9 +120,9 @@ export const getLutAddressesForCandyMachineAndGuard = async (
     }
     if (group.guards.programGate.__option === "Some") {
       //push the array content from group.guards.programGate.value.additional into guardKeys
-      group.guards.programGate.value.additional.forEach((programGate) => {
+      for (const programGate of group.guards.programGate.value.additional) {
         guardKeys.push(programGate);
-      });
+      }
     }
     if (group.guards.solPayment.__option === "Some") {
       guardKeys.push(group.guards.solPayment.value.destination);
@@ -141,7 +141,7 @@ export const getLutAddressesForCandyMachineAndGuard = async (
       guardKeys.push(group.guards.tokenPayment.value.mint);
       guardKeys.push(group.guards.tokenPayment.value.destinationAta);
     }
-  });
+  }
 
   // Add collection Authority PDA
   guardKeys.push(

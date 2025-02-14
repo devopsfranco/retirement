@@ -13,6 +13,7 @@ export const checkAtaValid = (
 ) => {
     console.log("checkAtaValid")
   let atas: PublicKey[] = [];
+  let invalidAtas: { ata: PublicKey; error: string }[] = [];
   guards.forEach((guard) => {
     if (guard.guards.tokenPayment.__option === "Some") {
       let tokenPayment = guard.guards.tokenPayment as Some<TokenPayment>;
@@ -27,14 +28,15 @@ export const checkAtaValid = (
   atas.forEach((ata) => {
     fetchToken(umi, ata).catch((e) => {
       console.log(e);
-      createStandaloneToast().toast({
-        title: "Your Candy Guard config is incorrect!",
-        description: `${ata} is not a Associated Token Account! Minting will fail!`,
-        status: "error",
-        duration: 9000,
-        isClosable: false,
+      invalidAtas.push({
+        ata,
+        error: e.message || "Unknown error",
       });
     });
   });
-  return;
+
+  return {
+    success: invalidAtas.length === 0,
+    invalidAtas,
+  };
 };

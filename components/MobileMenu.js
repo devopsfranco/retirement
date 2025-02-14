@@ -2,9 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import Link from "next/link";
 
-
-
-//import UIkit from "uikit";
+import UIkit from "uikit";
 
 const MobileMenu = () => {
 

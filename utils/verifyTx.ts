@@ -52,23 +52,12 @@ export const verifyTx = async (umi: Umi, signatures: Uint8Array[], blockhash: Bl
   });
 
   if (failed && failed.length > 0){
-    createStandaloneToast().toast({
-      title: `${failed.length} transactions failed!`,
-      status: "error",
-      duration: 3000,
-    });
-    failed.forEach((fail) => {
-      console.error(fail)
-    })
+    console.error(`${failed.length} transactions failed:`, failed);
   }
 
   if (successful.length > 0){
-    createStandaloneToast().toast({
-      title: `${successful.length} transactions successful!`,
-      status: "success",
-      duration: 3000,
-    });
+    console.log(`${successful.length} transactions successful.`);
   }
 
-  return successful;
+  return { successful, failed };
 };
