@@ -22,6 +22,23 @@ This document outlines a proposed refactor for the application to adopt a modula
 
 The refactor will introduce a modular file structure to separate concerns and improve maintainability:
 
+---
+
+## Anchor-Based Staking Program
+
+### Overview
+The staking program has been implemented using the Anchor framework to leverage Solana's high-performance blockchain. It provides the following functionalities:
+- **Deposit**: Users can deposit tokens into the staking pool.
+- **Withdraw**: Users can withdraw their staked tokens.
+- **Claim Rewards**: Users can claim rewards based on a time-weighted balance.
+
+### Key Features
+1. **Dynamic Reward Distribution**: Rewards are calculated based on the staker's balance and the time elapsed since the last deposit.
+2. **Role-Based Access Control**: Only the staker can perform actions on their account.
+3. **SPL Token Integration**: The program uses SPL Token instructions for token transfers.
+
+---
+
 ```
 src/
 ├── components/          # Reusable UI components
@@ -31,10 +48,102 @@ src/
 ├── pages/               # Next.js pages
 ├── services/            # Web3 utilities and API integrations
 │   ├── web3/            # Solana-specific utilities
+
+---
+
+## Integration with Frontend
+
+### Wallet Adapter Configuration
+To integrate wallets like Phantom or Solflare, configure `@solana/wallet-adapter-react` as follows:
+1. Install the required dependencies:
+   ```bash
+   npm install @solana/wallet-adapter-react @solana/wallet-adapter-react-ui @solana/wallet-adapter-wallets
+   ```
+2. Wrap your application with the `WalletProvider` and `WalletModalProvider` components:
+   ```tsx
+   import { WalletProvider, WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+
+   <WalletProvider wallets={wallets}>
+       <WalletModalProvider>
+           <App />
+       </WalletModalProvider>
+   </WalletProvider>
+   ```
+
+### Frontend Integration
+Use `@solana/web3.js` and the Anchor client to interact with the staking program:
+1. Initialize the connection and wallet:
+   ```tsx
+   import { Connection, PublicKey } from '@solana/web3.js';
+   import { AnchorProvider, Program } from '@project-serum/anchor';
+
+   const connection = new Connection(clusterApiUrl('mainnet-beta'));
+   const provider = new AnchorProvider(connection, wallet, {});
+   const program = new Program(idl, programId, provider);
+   ```
+2. Call program methods (e.g., deposit):
+   ```tsx
+   await program.rpc.deposit(new BN(amount), {
+       accounts: {
+           staker: wallet.publicKey,
+           stakingAccount: stakingAccountPublicKey,
+           stakingPool: stakingPoolPublicKey,
+           tokenProgram: TOKEN_PROGRAM_ID,
+       },
+   });
+   ```
+
+---
 │   ├── api/             # Backend API calls
 ├── hooks/               # Custom React hooks
 ├── utils/               # Helper functions
+
+---
+
+## Testing Guidelines
+
+### Using Anchor's Testing Suite
+1. Write tests in the `tests/` directory of your Anchor project.
+2. Use Mocha and Chai for assertions:
+   ```javascript
+   const { expect } = require('chai');
+
+   it('Deposits tokens into the staking pool', async () => {
+       const tx = await program.rpc.deposit(new BN(100), {
+           accounts: {
+               staker: provider.wallet.publicKey,
+               stakingAccount,
+               stakingPool,
+               tokenProgram: TOKEN_PROGRAM_ID,
+           },
+       });
+       expect(tx).to.be.ok;
+   });
+   ```
+3. Run tests with the Anchor CLI:
+   ```bash
+   anchor test
+   ```
+
+---
 ├── styles/              # Global and module-specific styles
+
+---
+
+## Deployment Steps
+
+### Using Anchor CLI
+1. Build the program:
+   ```bash
+   anchor build
+   ```
+2. Deploy the program to the Solana blockchain:
+   ```bash
+   anchor deploy
+   ```
+3. Verify the deployment by checking the program ID in the `target/idl/` directory.
+
+---
 ```
 
 ### New Modules
