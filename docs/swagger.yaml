@@ -1,0 +1,206 @@
+openapi: 3.0.3
+info:
+  title: Retirement Coin API
+  description: API documentation for the Retirement Coin backend services.
+  version: 1.0.0
+servers:
+  - url: https://retirementcoin.io
+    description: Production server
+paths:
+  /propose_vote:
+    post:
+      summary: Propose a new voting topic.
+      description: Allows users to propose a new voting topic with multiple options.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                topic_title:
+                  type: string
+                  description: The title of the voting topic.
+                  example: "Best Retirement Plan"
+                options:
+                  type: array
+                  items:
+                    type: string
+                  description: List of options for the topic.
+                  example: ["Option 1", "Option 2", "Option 3"]
+      responses:
+        '200':
+          description: Successfully proposed a new vote.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "Vote proposed successfully!"
+        '400':
+          description: Invalid input data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "Invalid request payload."
+  /cast_vote:
+    post:
+      summary: Cast a vote for a specific option.
+      description: Allows users to cast their vote for a selected option in a topic.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet:
+                  type: string
+                  description: The wallet address of the voter.
+                  example: "9u48hDfYSQsEuV9mdKaP31dF1CtqSuxL1mqeBY6Mz1CP"
+                option_id:
+                  type: integer
+                  description: The ID of the option being voted for.
+                  example: 1
+                vote_value:
+                  type: integer
+                  description: The number of votes being cast.
+                  example: 5
+      responses:
+        '200':
+          description: Successfully cast the vote.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "Vote cast successfully!"
+        '400':
+          description: Invalid input data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "Invalid request payload."
+  /get_topics:
+    get:
+      summary: Retrieve active voting topics.
+      description: Fetches a list of active voting topics along with their options and vote counts.
+      responses:
+        '200':
+          description: Successfully retrieved topics.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  topics:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        topic_id:
+                          type: integer
+                          example: 1
+                        title:
+                          type: string
+                          example: "Best Retirement Plan"
+                        options:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              option_id:
+                                type: integer
+                                example: 1
+                              option_title:
+                                type: string
+                                example: "Option 1"
+                              total_votes:
+                                type: integer
+                                example: 100
+        '500':
+          description: Server error.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "Failed to fetch topics."
+  /retract_vote:
+    post:
+      summary: Retract a previously cast vote.
+      description: Allows users to retract their vote from a specific option.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                wallet:
+                  type: string
+                  description: The wallet address of the voter.
+                  example: "9u48hDfYSQsEuV9mdKaP31dF1CtqSuxL1mqeBY6Mz1CP"
+                option_id:
+                  type: integer
+                  description: The ID of the option from which the vote is being retracted.
+                  example: 1
+      responses:
+        '200':
+          description: Successfully retracted the vote.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: "Vote retracted successfully!"
+        '400':
+          description: Invalid input data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: "Invalid request payload."
