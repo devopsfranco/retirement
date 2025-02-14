@@ -2,14 +2,14 @@
 
 ## Context
 
-The staking module is designed to provide a secure, efficient, and upgradable ERC-20 staking contract with dynamic reward distribution. The module integrates AI-assisted development practices to ensure maintainability and audit readiness. This document outlines the architecture, security considerations, testing strategies, and compliance standards for the staking module.
+The staking module is designed to provide a secure, efficient, and upgradable Solana-based staking program with dynamic reward distribution. The module integrates AI-assisted development practices to ensure maintainability and audit readiness. This document outlines the architecture, security considerations, testing strategies, and compliance standards for the staking module.
 
 ---
 
 ## Architecture
 
-### Upgradable Contract Design
-- **Pattern**: Transparent Proxy Pattern is used to enable upgradability.
+### Upgradable Program Design
+- **Pattern**: Anchor's program upgradeability is used to enable seamless upgrades.
 - **Separation of Concerns**:
   - Core staking logic is separated from reward calculation logic.
   - This ensures modularity and simplifies future upgrades.
@@ -20,24 +20,24 @@ The staking module is designed to provide a secure, efficient, and upgradable ER
 
 ### Access Control
 - **Role-Based Access Control**:
-  - `ADMIN_ROLE` is implemented using OpenZeppelin's `AccessControl`.
-  - Only accounts with `ADMIN_ROLE` can perform privileged operations.
+  - Role-based access is implemented using PDAs (Program Derived Addresses) and multisig accounts.
+  - Only authorized accounts can perform privileged operations.
 - **Timelock and Multisig**:
   - A timelock is used for sensitive operations to allow time for community review.
   - Multisig wallets are required for administrative actions to enhance security.
 
 ### Reward Distribution
 - **Dynamic Reward Calculation**:
-  - Rewards are distributed based on time-weighted balances for fairness.
-  - The pull-over-push pattern is used to allow users to claim rewards, reducing gas costs and reentrancy risks.
+  - Rewards are distributed based on time-weighted balances for fairness and transparency.
+  - The pull-over-push pattern is used to allow users to claim rewards, minimizing transaction costs and eliminating reentrancy risks.
 
 ---
 
 ## Security Considerations
 
 ### Guidelines Followed
-- **OWASP Top 10**: Adherence to the OWASP Top 10 for secure smart contract development.
-- **Consensys Best Practices**: Implementation of Ethereum Smart Contract Best Practices.
+- **Solana Security Guidelines**: Adherence to Solana's best practices for secure program development.
+- **Anchor Framework Best Practices**: Implementation of Anchor's guidelines for secure and efficient program design.
 
 ### Key Security Features
 1. **Reentrancy Protection**:
@@ -87,10 +87,9 @@ The staking module is designed to provide a secure, efficient, and upgradable ER
 ## Compliance
 
 ### Standards
-- **ERC-20**: The staking token adheres to the ERC-20 standard.
-- **EIP-712**: Typed structured data signing is implemented for secure off-chain interactions.
-- **EIP-2612**: Permit functionality is supported for gasless approvals.
-- **EIP-4758**: Compliance with the latest staking-related standards.
+- **SPL Token Standard**: The staking token adheres to Solana's SPL token standard.
+- **Anchor IDL**: The program's interface is defined using Anchor's IDL (Interface Definition Language) for seamless integration.
+- **Solana Program Standards**: Compliance with Solana's program design and security standards.
 
 ### Audit Readiness
 - **Static Analysis**:

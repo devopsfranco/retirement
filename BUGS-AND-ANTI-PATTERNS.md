@@ -11,11 +11,11 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
 - **Example**:
   - File: `utils/getLutAddressesForCandyMachineAndGuard.ts`
     ```typescript
-    candyGuard.groups.forEach(async (group) => {
+    for (const group of candyGuard.groups) {
       if (group.guards.addressGate.__option === "Some") {
         guardKeys.push(group.guards.addressGate.value.address);
       }
-    });
+    }
     ```
 - **Recommendation**: Replace `forEach` with a `for...of` loop to ensure proper sequencing of asynchronous operations.
     ```typescript
@@ -33,7 +33,7 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
 - **Example**:
   - File: `utils/checkerHelper.ts`
     ```typescript
-    if (wallet != address) {
+    if (!wallet.equals(address)) {
       return false;
     }
     ```
@@ -51,6 +51,8 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
 - **Example**:
   - File: `components/MobileMenu.js`
     ```javascript
+    import UIkit from "uikit";
+
     const offcanvas = UIkit.offcanvas("#uni_mobile_menu");
     if (offcanvas) {
       offcanvas.show();
@@ -71,7 +73,12 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
 - **Example**:
   - File: `utils/mintHelper.ts`
     ```typescript
-    const maxmintamount = Number(process.env.NEXT_PUBLIC_MAXMINTAMOUNT);
+    let maxmintamount = 0;
+    try {
+      maxmintamount = Number(process.env.NEXT_PUBLIC_MAXMINTAMOUNT);
+    } catch (e) {
+      console.error('process.env.NEXT_PUBLIC_MAXMINTAMOUNT is not a number!', e);
+    }
     ```
 - **Recommendation**:
   - Update the `tsconfig.json` target to `es6` or later.
@@ -89,13 +96,7 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
 - **Example**:
   - File: `utils/validateConfig.ts`
     ```typescript
-    createStandaloneToast().toast({
-      title: "Your Candy Guard config is incorrect!",
-      description: `${ata} is not a Associated Token Account! Minting will fail!`,
-      status: "error",
-      duration: 9000,
-      isClosable: false,
-    });
+    return { success: false, error: `${ata} is not a valid Associated Token Account` };
     ```
 - **Recommendation**:
   - Decouple side effects from utility functions. Return standardized errors or results that can be handled in the UI layer.

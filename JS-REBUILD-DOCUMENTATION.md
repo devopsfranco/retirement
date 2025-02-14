@@ -1,9 +1,9 @@
 # JS-REBUILD-DOCUMENTATION.md
 
-## Rationale for Converting the Project to an Entirely JavaScript Application
+## Rationale for Retaining TypeScript in the Solana/Anchor Framework
 
 ### Overview
-The current project is built using TypeScript. While TypeScript offers benefits like type safety and better tooling, there are scenarios where switching to plain JavaScript can simplify the development process. This document outlines the rationale, pros and cons, and a step-by-step plan for converting the project into an entirely JavaScript-based application.
+The project has been migrated to a Solana/Anchor-based framework. While there was a discussion about converting the project to plain JavaScript, the decision was made to retain TypeScript. TypeScript offers significant benefits, including type safety, better tooling, and seamless integration with modern Solana libraries like `@solana/web3.js` and wallet adapters. This document outlines the rationale for retaining TypeScript and the adjustments made to align with the Solana/Anchor framework.
 
 ---
 
@@ -47,19 +47,13 @@ The current project is built using TypeScript. While TypeScript offers benefits 
    - Create a backup of the current codebase.
    - Ensure all tests are passing in the current TypeScript setup.
 
-### 2. **Adjust File Structure**
-   - Rename all `.ts` and `.tsx` files to `.js` and `.jsx` respectively.
-     ```bash
-     find . -name "*.ts" -exec bash -c 'mv "$0" "${0%.ts}.js"' {} \;
-     find . -name "*.tsx" -exec bash -c 'mv "$0" "${0%.tsx}.jsx"' {} \;
-     ```
+### 2. **Adjustments for Solana/Anchor Framework**
+   - Ensure all TypeScript files (`.ts` and `.tsx`) are updated to align with Solana/Anchor conventions.
+   - Retain TypeScript-specific syntax such as type annotations, interfaces, and generics for better type safety and tooling support.
 
-### 3. **Remove TypeScript-Specific Code**
-   - Remove TypeScript-specific syntax such as:
-     - Type annotations (`: string`, `: number`, etc.).
-     - Interfaces and type declarations.
-     - Generics (`<T>`).
-   - Replace `import type` with regular `import`.
+### 3. **Leverage Modern Solana Libraries**
+   - Use libraries like `@solana/web3.js` and `@solana/wallet-adapter-react` for seamless integration with the Solana blockchain.
+   - Ensure compatibility with Anchor client libraries.
 
 ### 4. **Update Configuration Files**
    - Remove `tsconfig.json` and any TypeScript-specific configurations.
@@ -120,8 +114,8 @@ The current project is built using TypeScript. While TypeScript offers benefits 
    - Verify that the code adheres to JavaScript best practices.
 
 ### 10. **Documentation**
-   - Update project documentation to reflect the switch to JavaScript.
-   - Remove references to TypeScript in README and other documentation files.
+   - Update project documentation to reflect the migration to Solana/Anchor.
+   - Emphasize the decision to retain TypeScript for its benefits in the current framework.
 
 ---
 
@@ -161,4 +155,4 @@ The current project is built using TypeScript. While TypeScript offers benefits 
 
 ## Conclusion
 
-Switching to JavaScript simplifies the development process but comes with trade-offs like the loss of type safety. By following the outlined plan, the migration can be executed systematically, minimizing risks and ensuring a smooth transition.
+The decision to retain TypeScript ensures the project benefits from type safety, better tooling, and compatibility with modern Solana libraries. This approach aligns with the Solana/Anchor framework and enhances the project's maintainability and security.

@@ -10,7 +10,7 @@ paths:
   /propose_vote:
     post:
       summary: Propose a new voting topic.
-      description: Allows users to propose a new voting topic with multiple options.
+      description: Allows users to propose a new voting topic with multiple options. Requires an API key in the `X-API-KEY` header.
       requestBody:
         required: true
         content:
@@ -54,11 +54,11 @@ paths:
                     example: error
                   message:
                     type: string
-                    example: "Invalid request payload."
+                    example: "Invalid request payload. Ensure all required fields are provided and valid."
   /cast_vote:
     post:
       summary: Cast a vote for a specific option.
-      description: Allows users to cast their vote for a selected option in a topic.
+      description: Allows users to cast their vote for a selected option in a topic. Requires an API key in the `X-API-KEY` header.
       requestBody:
         required: true
         content:
@@ -76,7 +76,7 @@ paths:
                   example: 1
                 vote_value:
                   type: integer
-                  description: The number of votes being cast.
+                  description: The number of votes being cast. This value represents the weight of the user's vote.
                   example: 5
       responses:
         '200':
@@ -104,11 +104,11 @@ paths:
                     example: error
                   message:
                     type: string
-                    example: "Invalid request payload."
+                    example: "Invalid request payload. Ensure the wallet address, option ID, and vote value are valid."
   /get_topics:
     get:
       summary: Retrieve active voting topics.
-      description: Fetches a list of active voting topics along with their options and vote counts.
+      description: Fetches a list of active voting topics along with their options and vote counts. Requires an API key in the `X-API-KEY` header.
       responses:
         '200':
           description: Successfully retrieved topics.
@@ -157,11 +157,11 @@ paths:
                     example: error
                   message:
                     type: string
-                    example: "Failed to fetch topics."
+                    example: "Failed to fetch topics. Please try again later or contact support if the issue persists."
   /retract_vote:
     post:
       summary: Retract a previously cast vote.
-      description: Allows users to retract their vote from a specific option.
+      description: Allows users to retract their vote from a specific option. Requires an API key in the `X-API-KEY` header.
       requestBody:
         required: true
         content:
@@ -203,4 +203,4 @@ paths:
                     example: error
                   message:
                     type: string
-                    example: "Invalid request payload."
+                    example: "Invalid request payload. Ensure the wallet address and option ID are valid."

@@ -6,6 +6,26 @@ This document outlines a proposed refactor for the application to adopt a modula
 
 ---
 
+## Future Enhancements
+
+1. **Additional Modules**:
+   - Add a `notifications` module for real-time user alerts.
+   - Introduce a `profile` module for user-specific settings and data.
+
+2. **Performance Optimizations**:
+   - Implement lazy loading for components and modules.
+   - Optimize API calls with caching mechanisms.
+
+3. **Enhanced Testing**:
+   - Add integration tests for wallet interactions.
+   - Use Cypress for end-to-end testing of critical workflows.
+
+4. **Security Improvements**:
+   - Integrate automated security checks for smart contracts.
+   - Add rate limiting to API endpoints to prevent abuse.
+
+---
+
 ## Rationale for Using Next.js with TypeScript
 
 - **Type Safety**: TypeScript provides static typing, reducing runtime errors and improving code quality.
@@ -20,7 +40,23 @@ This document outlines a proposed refactor for the application to adopt a modula
 
 ### New File Structure
 
-The refactor will introduce a modular file structure to separate concerns and improve maintainability:
+The refactor introduces a modular file structure to separate concerns and improve maintainability. The current structure is as follows:
+
+```
+src/
+├── components/          # Reusable UI components
+├── modules/             # Feature-specific modules
+│   ├── staking/         # Staking functionality
+│   ├── governance/      # Governance functionality
+│   ├── minting/         # NFT minting functionality
+├── pages/               # Next.js pages
+├── services/            # Web3 utilities and API integrations
+│   ├── web3/            # Solana-specific utilities
+│   ├── api/             # Backend API calls
+├── hooks/               # Custom React hooks
+├── utils/               # Helper functions
+├── styles/              # Global and module-specific styles
+```
 
 ---
 
@@ -68,6 +104,12 @@ To integrate wallets like Phantom or Solflare, configure `@solana/wallet-adapter
            <App />
        </WalletModalProvider>
    </WalletProvider>
+   ```
+3. Use the `WalletMultiButton` component for wallet connection:
+   ```tsx
+   import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+
+   const WalletButton = () => <WalletMultiButton />;
    ```
 
 ### Frontend Integration
@@ -123,6 +165,23 @@ Use `@solana/web3.js` and the Anchor client to interact with the staking program
 3. Run tests with the Anchor CLI:
    ```bash
    anchor test
+   ```
+
+### Using Jest for Frontend Testing
+1. Write tests in the `__tests__/` directory of your Next.js project.
+2. Use Jest and React Testing Library for assertions:
+   ```tsx
+   import { render, screen } from '@testing-library/react';
+   import WalletButton from '../components/WalletButton';
+
+   test('renders wallet button', () => {
+       render(<WalletButton />);
+       expect(screen.getByText(/connect wallet/i)).toBeInTheDocument();
+   });
+   ```
+3. Run tests with the Jest CLI:
+   ```bash
+   npm run test
    ```
 
 ---
