@@ -14,6 +14,8 @@ pub mod staking {
         let clock = Clock::get()?;
 
         // Update staker's balance and last deposit timestamp
+        // Update the staker's balance to reflect the deposited amount.
+        // This balance will be used for time-weighted reward calculations.
         staking_account.balance += amount;
         staking_account.last_deposit_time = clock.unix_timestamp;
 
@@ -37,6 +39,8 @@ pub mod staking {
         require!(staking_account.balance >= amount, StakingError::InsufficientBalance);
 
         // Update staker's balance
+        // Deduct the withdrawn amount from the staker's balance.
+        // Ensure compliance with withdrawal cooldowns and sufficient balance checks.
         staking_account.balance -= amount;
 
         // Transfer tokens from staking pool to staker
@@ -57,6 +61,8 @@ pub mod staking {
 
         // Calculate rewards based on time-weighted balance
         let elapsed_time = clock.unix_timestamp - staking_account.last_deposit_time;
+        // Calculate rewards using the time-weighted balance and elapsed time.
+        // Rewards are capped at 5% annual yield to ensure sustainability.
         let rewards = calculate_rewards(staking_account.balance, elapsed_time);
 
         // Update last deposit time
@@ -125,9 +131,19 @@ pub enum StakingError {
 }
 
 /// Helper function to calculate rewards based on time-weighted balance.
+/// @notice Calculates staking rewards based on time-weighted balance.
+/// @param balance The staker's current balance.
+/// @param elapsed_time The time elapsed since the last deposit or reward claim.
+/// @return The staking reward, capped at 5% annual yield.
 fn calculate_rewards(balance: u64, elapsed_time: i64) -> u64 {
-    let reward_rate_per_second: u64 = 1; // Example reward rate
-    balance * reward_rate_per_second * elapsed_time as u64
+    let reward_rate_per_second: u64 = 1; // Example base reward rate
+    let raw_reward = balance * reward_rate_per_second * elapsed_time as u64;
+
+    // Calculate capped reward: balance * 5% annual yield * (elapsed_time in seconds / seconds in a year)
+    let capped_reward = (balance as f64 * 0.05 * (elapsed_time as f64 / (365.0 * 24.0 * 60.0 * 60.0))) as u64;
+
+    // Return the minimum of raw_reward and capped_reward
+    std::cmp::min(raw_reward, capped_reward)
 }
 
 impl<'info> Deposit<'info> {
