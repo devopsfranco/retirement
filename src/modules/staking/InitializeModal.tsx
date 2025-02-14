@@ -1,4 +1,4 @@
-import { createLutForCandyMachineAndGuard } from "../utils/createLutForCandyGuard";
+import { createLutForCandyMachineAndGuard } from "../../utils/createLutForCandyGuard";
 import {
   Box,
   Button,
@@ -38,7 +38,6 @@ import { useEffect, useState } from "react";
 import { allowLists } from "@/allowlist";
 import { getRequiredCU } from "@/utils/mintHelper";
 
-// new function createLUT that is called when the button is clicked and which calls createLutForCandyMachineAndGuard and returns a success toast
 const createLut =
   (
     umi: Umi,
@@ -245,7 +244,6 @@ export const InitializeModal = ({ umi, candyMachine, candyGuard }: Props) => {
     return <></>;
   }
 
-  //key value object with label and roots
   const roots = new Map<string, string>();
 
   allowLists.forEach((value, key) => {
@@ -256,7 +254,6 @@ export const InitializeModal = ({ umi, candyMachine, candyGuard }: Props) => {
     }
   });
 
-  //put each root into a <Text> element
   const rootElements = Array.from(roots).map(([key, value]) => {
     return (
       <Box key={key}>

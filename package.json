@@ -6,7 +6,8 @@
     "dev": "next dev --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint --fix",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.1.4",

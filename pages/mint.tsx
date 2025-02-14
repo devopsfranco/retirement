@@ -14,7 +14,7 @@ import { Center, Card, CardHeader, CardBody, StackDivider, Heading, Stack, useTo
 import { ButtonList } from "../components/mintButton";
 import { GuardReturn } from "../utils/checkerHelper";
 import { ShowNft } from "../components/showNft";
-import { InitializeModal } from "../components/initializeModal";
+import { InitializeModal } from "../src/modules/staking/InitializeModal";
 import { image, headerText } from "../settings";
 import { useSolanaTime } from "@/utils/SolanaTimeContext";
 import clsx from 'clsx';

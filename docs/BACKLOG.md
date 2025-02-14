@@ -15,6 +15,7 @@ This document serves as a repository of future execution tasks for improving the
     - Separate staking, governance, NFT minting, and wallet integration into individual modules.
     - Refactor utility functions like `createLutForCandyMachineAndGuard` and `guardChecker` into dedicated service modules.
     - Decouple UI logic from backend logic in files like `initializeModal.tsx` and `mintButton.tsx`.
+- **Status**: Completed
 
 ---
 
@@ -25,6 +26,7 @@ This document serves as a repository of future execution tasks for improving the
     - Write unit tests for utility functions in `checkerHelper.ts` and `mintHelper.ts`.
     - Implement integration tests for critical flows such as NFT minting and wallet integration.
     - Add end-to-end (E2E) tests using tools like Foundry and Cypress.
+- **Status**: Completed
 
 ---
 
@@ -35,6 +37,7 @@ This document serves as a repository of future execution tasks for improving the
     - Implement caching for API responses to reduce redundant network calls.
     - Introduce lazy loading for modules to improve initial load times.
     - Audit and optimize asynchronous operations to avoid race conditions.
+- **Status**: Completed
 
 ---
 
@@ -45,6 +48,7 @@ This document serves as a repository of future execution tasks for improving the
     - Add JSDoc comments to critical functions like `mintArgsBuilder` and `routeBuilder`.
     - Create a centralized developer guide for onboarding new contributors.
     - Update README and other documentation files to reflect recent changes and best practices.
+- **Status**: Completed
 
 ---
 
@@ -55,6 +59,7 @@ This document serves as a repository of future execution tasks for improving the
     - Audit and replace all direct `PublicKey` comparisons with `.equals()` for correctness.
     - Refactor hardcoded values like `process.env.NEXT_PUBLIC_MICROLAMPORTS` into a centralized configuration module.
     - Add runtime validation for critical environment variables.
+- **Status**: Completed
 
 ---
 
@@ -64,6 +69,7 @@ This document serves as a repository of future execution tasks for improving the
   - **Tasks**:
     - Replace `async` within `forEach` loops with `for...of` loops or `Promise.all`.
     - Refactor instances of `async forEach` in files like `initializeModal.tsx` and `checkerHelper.ts`.
+- **Status**: Completed
 
 ---
 
@@ -73,6 +79,7 @@ This document serves as a repository of future execution tasks for improving the
   - **Tasks**:
     - Refactor hardcoded values into a configuration module.
     - Add runtime validation for critical environment variables.
+- **Status**: Completed
 
 ---
 

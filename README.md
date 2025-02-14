@@ -93,6 +93,10 @@ For in-depth design decisions, security best practices, and compliance guideline
 
 ---
 
+## Feedback & Issues
+
+We value your feedback! If you encounter any bugs, have feature requests, or want to share your thoughts, please visit our [GitHub Issues Page](https://github.com/devopsfranco/retirement/issues) to submit your feedback or report issues.
+
 ## RetirementCoin Ecosystem
 
 ### Core Addresses
