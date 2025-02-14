@@ -49,7 +49,14 @@ $query = "
     ORDER BY t.created_at DESC, o.id ASC;
 ";
 
-$result = $conn->query($query);
+$stmt = $conn->prepare($query);
+if (!$stmt) {
+    echo json_encode(["status" => "error", "message" => "Failed to prepare the database query."]);
+    exit();
+}
+
+$stmt->execute();
+$result = $stmt->get_result();
 
 $topics = [];
 while ($row = $result->fetch_assoc()) {
@@ -78,6 +85,7 @@ while ($row = $result->fetch_assoc()) {
         $topics[$topic_id]["total_votes"] += (int)$row["total_votes"];
     }
 }
+$stmt->close();
 
 // Compute percentages for each option
 foreach ($topics as &$topic) {
@@ -92,5 +100,6 @@ $conn->close();
 
 // Return data as JSON
 echo json_encode(["status" => "success", "topics" => array_values($topics)]);
+exit();
 
 ?>

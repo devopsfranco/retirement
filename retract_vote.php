@@ -26,14 +26,14 @@ if (!isset($headers['x-api-key']) || $headers['x-api-key'] !== API_KEY) {
     exit();
 }
 
-// Read and decode JSON input
+// Read JSON input
 $data = json_decode(file_get_contents("php://input"), true);
-$topic_title = $data['topic_title'] ?? null;
-$options = $data['options'] ?? [];
+$wallet = $data['wallet'] ?? null;
+$topic_id = $data['topic_id'] ?? null;
 
 // Validate input
-if (!$topic_title || empty($options) || !is_array($options)) {
-    echo json_encode(["status" => "error", "message" => "Missing required fields or invalid options format"]);
+if (!$wallet || !$topic_id) {
+    echo json_encode(["status" => "error", "message" => "Missing required fields"]);
     exit();
 }
 
@@ -43,30 +43,29 @@ if ($conn->connect_error) {
     die(json_encode(["status" => "error", "message" => "Database connection failed"]));
 }
 
-// Insert the new topic
-$stmt = $conn->prepare("INSERT INTO topics (title, status, created_at) VALUES (?, 'active', NOW())");
-$stmt->bind_param("s", $topic_title);
-if (!$stmt->execute()) {
-    echo json_encode(["status" => "error", "message" => "Failed to create topic"]);
+// Check if the wallet has voted for this topic
+$stmt = $conn->prepare("SELECT id FROM votes WHERE wallet = ? AND topic_id = ?");
+$stmt->bind_param("si", $wallet, $topic_id);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows === 0) {
+    echo json_encode(["status" => "error", "message" => "No vote found to retract"]);
     exit();
 }
 
-$topic_id = $stmt->insert_id; // Get the newly created topic ID
-$stmt->close();
+// Delete the vote from the database
+$stmt = $conn->prepare("DELETE FROM votes WHERE wallet = ? AND topic_id = ?");
+$stmt->bind_param("si", $wallet, $topic_id);
 
-// Insert options for the topic
-$stmt = $conn->prepare("INSERT INTO options (topic_id, option_text) VALUES (?, ?)");
-foreach ($options as $option_text) {
-    $stmt->bind_param("is", $topic_id, $option_text);
-    if (!$stmt->execute()) {
-        echo json_encode(["status" => "error", "message" => "Failed to add options"]);
-        exit();
-    }
+if ($stmt->execute()) {
+    echo json_encode(["status" => "success", "message" => "Vote retracted successfully!"]);
+} else {
+    echo json_encode(["status" => "error", "message" => "Database error while retracting vote"]);
 }
+
+// Close connections
 $stmt->close();
 $conn->close();
-
-// Success response
-echo json_encode(["status" => "success", "message" => "Vote proposed successfully", "topic_id" => $topic_id]);
 
 ?>
