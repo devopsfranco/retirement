@@ -74,7 +74,7 @@ const Home = () => {
             return;
         }
 
-        const response = await fetch("https://retirementcoin.io/propose_vote.php", {
+        const response = await fetch("/api/propose_vote", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

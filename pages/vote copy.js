@@ -42,7 +42,7 @@ const Home = () => {
 
   // Fetch active voting topics from backend
   const fetchTopics = async () => {
-    const response = await fetch("https://retirementcoin.io/get_topics.php", {
+    const response = await fetch("/api/get_topics", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -97,7 +97,7 @@ const Home = () => {
       return;
     }
 
-    const response = await fetch("https://retirementcoin.io/cast_vote99.php", {
+    const response = await fetch("/api/cast_vote", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -141,7 +141,7 @@ const Home = () => {
       return;
     }
 
-    const response = await fetch("https://retirementcoin.io/retract_vote.php", {
+    const response = await fetch("/api/retract_vote", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

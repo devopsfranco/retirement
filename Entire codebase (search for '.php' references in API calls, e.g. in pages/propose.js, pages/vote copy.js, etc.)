@@ -1,0 +1,34 @@
+import { useEffect } from "react";
+
+// Utility function to update API references
+const updateApiReferences = () => {
+  const apiMappings = {
+    "https://retirementcoin.io/propose_vote.php": "/api/propose_vote",
+    "https://retirementcoin.io/cast_vote99.php": "/api/cast_vote",
+    "https://retirementcoin.io/retract_vote.php": "/api/retract_vote",
+    "https://retirementcoin.io/get_topics.php": "/api/get_topics",
+    "https://retirementcoin.io/get_topics2.php": "/api/get_topics",
+    "https://retirementcoin.io/cast_vote2.php": "/api/cast_vote",
+    "https://retirementcoin.io/retract_vote2.php": "/api/retract_vote",
+    "https://retirementcoin.io/getHolders.php": "/api/get_holders",
+    "https://retirementcoin.io/updateHolders.php": "/api/update_holders",
+  };
+
+  const elements = document.querySelectorAll("[data-api-endpoint]");
+
+  elements.forEach((element) => {
+    const originalEndpoint = element.getAttribute("data-api-endpoint");
+    if (apiMappings[originalEndpoint]) {
+      element.setAttribute("data-api-endpoint", apiMappings[originalEndpoint]);
+    }
+  });
+};
+
+// Hook to apply API reference updates on component mount
+const useUpdateApiReferences = () => {
+  useEffect(() => {
+    updateApiReferences();
+  }, []);
+};
+
+export default useUpdateApiReferences;
