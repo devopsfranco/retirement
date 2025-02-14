@@ -8,8 +8,9 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
 
 ### 1. **Async in `forEach`**
 - **Issue**: Asynchronous operations are used inside `forEach` without proper awaiting. This can lead to unexpected behavior since `forEach` does not handle promises.
+- **Fix Applied**: Replaced `async forEach` with `for...of` loops to ensure proper sequencing of asynchronous operations.
 - **Example**:
-  - File: `utils/getLutAddressesForCandyMachineAndGuard.ts`
+  - File: `utils/createLutForCandyGuard.ts`
     ```typescript
     for (const group of candyGuard.groups) {
       if (group.guards.addressGate.__option === "Some") {
@@ -17,19 +18,14 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
       }
     }
     ```
-- **Recommendation**: Replace `forEach` with a `for...of` loop to ensure proper sequencing of asynchronous operations.
-    ```typescript
-    for (const group of candyGuard.groups) {
-      if (group.guards.addressGate.__option === "Some") {
-        guardKeys.push(group.guards.addressGate.value.address);
-      }
-    }
+- **Symbolic Reasoning**: This change ensures that asynchronous operations are executed in sequence, preventing potential race conditions and improving code reliability.
     ```
 
 ---
 
 ### 2. **PublicKey Comparison**
-- **Issue**: `PublicKey` objects are compared using inequality (`!=`) instead of the `.equals` method. This can lead to incorrect comparisons since `PublicKey` objects are not directly comparable.
+- **Issue**: `PublicKey` objects were previously compared using inequality (`!=`) instead of the `.equals` method. This could lead to incorrect comparisons since `PublicKey` objects are not directly comparable.
+- **Fix Applied**: Updated all `PublicKey` comparisons to use the `.equals()` method.
 - **Example**:
   - File: `utils/checkerHelper.ts`
     ```typescript
@@ -37,11 +33,7 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
       return false;
     }
     ```
-- **Recommendation**: Use the `.equals` method for comparing `PublicKey` objects.
-    ```typescript
-    if (!wallet.equals(address)) {
-      return false;
-    }
+- **Symbolic Reasoning**: Using `.equals()` ensures accurate comparisons of `PublicKey` objects, reducing subtle bugs and aligning with best practices for Solana development.
     ```
 
 ---
@@ -106,9 +98,9 @@ This document outlines the identified bugs and anti-patterns in the codebase, al
 
 ---
 
-### Summary of Recommendations
-1. Replace `forEach` with `for...of` for async operations.
-2. Use `.equals` for `PublicKey` comparisons.
+### Summary of Recommendations and Fixes
+1. Replace `forEach` with `for...of` for async operations. **(Fix Applied)**: See `utils/createLutForCandyGuard.ts`.
+2. Use `.equals` for `PublicKey` comparisons. **(Fix Applied)**: See `utils/checkerHelper.ts`.
 3. Explicitly import `UIkit` or ensure its availability globally.
 4. Update `tsconfig.json` to target `es6` or later and validate environment variables.
 5. Decouple UI side effects (e.g., `toast`) from utility functions.
